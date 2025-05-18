@@ -1,0 +1,18 @@
+﻿{
+  "Address": {
+    "HostName": "ucvn.vn",
+    "Port": "",
+    "Page": "tvyb//blib"
+  },
+  "Account": {
+    "UserName": "admin",
+    "Password": "admin"
+  },
+  "DriverOptions": {
+    "DriverPath": "",
+    "Driver": "Chrome",
+    "DisableInterface": true,
+    "Sandbox": true,
+    "DisableDevShmUsage": false
+  }
+}
