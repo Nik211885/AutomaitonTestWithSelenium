@@ -1,6 +1,7 @@
 ﻿using Blib.UnitTest.Untils.Configuration.Model;
 using OpenQA.Selenium;
 using Microsoft.Extensions.Configuration;
+using OpenQA.Selenium.Support.UI;
 
 namespace Blib.UnitTest.Untils.Configuration;
 /// <summary>
@@ -27,12 +28,14 @@ public class ConfigurationManagement
     /// <summary>
     ///     Instance for web driver created in driver options with  factory 
     /// </summary>
-    private IWebDriver? _webdriver;
+    private IWebDriver? _webDriver;
+
+    private readonly int _waitTimeOut;
     private ConfigurationManagement()
     {
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddJsonFile("config.json", optional: true, reloadOnChange: true)
             .Build();
         var addressModel = configuration.GetSection("Address")
             .Get<AddressModel>();
@@ -40,7 +43,7 @@ public class ConfigurationManagement
             .Get<AccountModel>();
         _driverOptions = configuration.GetSection("DriverOptions")
             .Get<DriverOptionsModel>();
-        
+        _waitTimeOut = configuration.GetValue<int>("Assert:Timeout");
         _uriBuilder = new UrlBuilder(addressModel);
     }
     /// <summary>
@@ -59,7 +62,7 @@ public class ConfigurationManagement
     /// </summary>
     ~ConfigurationManagement()
     {
-        _webdriver?.Quit();
+        _webDriver?.Quit();
     }
     /// <summary>
     ///     Create new instance for web driver in your  option has configuration
@@ -79,8 +82,8 @@ public class ConfigurationManagement
     /// </summary>
     public void CloseCurrentWebDriver()
     {
-        _webdriver?.Quit();
-        _webdriver = null;
+        _webDriver?.Quit();
+        _webDriver = null;
     }
     /// <summary>
     ///     Get instance for web driver in current if don't have just create new instance 
@@ -89,7 +92,7 @@ public class ConfigurationManagement
     ///     Return web sdriver
     /// </returns>
     public IWebDriver GetCurrentWebDriver()
-        => _webdriver ??= CreateWebDriverInstance();
+        => _webDriver ??= CreateWebDriverInstance();
     /// <summary>
     ///     Create new web driver if have current web driver just close and create new instance
     /// </summary>
@@ -99,8 +102,8 @@ public class ConfigurationManagement
     public IWebDriver CreateFreshWebDriver()
     {
         CloseCurrentWebDriver();
-        _webdriver = CreateWebDriverInstance();
-        return _webdriver;
+        _webDriver = CreateWebDriverInstance();
+        return _webDriver;
     }
     /// <summary>
     ///     Get url builder helper if you don't has set uri builder
@@ -112,6 +115,24 @@ public class ConfigurationManagement
     /// </exception>
     public UrlBuilder GetUrlBuilderInstance()
         => _uriBuilder ?? throw new Exception("You not set address");
+    /// <summary>
+    ///     Get account model make test
+    /// </summary>
+    /// <exception cref="Exception"></exception>
     public AccountModel GetAccountModel
         => _account ?? throw new Exception("You not set account");
+    /// <summary>
+    ///     Get wait time with time out in config
+    /// </summary>
+    /// <param name="driver"></param>
+    /// <returns></returns>
+    public WebDriverWait GetWailTimeOut(IWebDriver driver)
+        => new WebDriverWait(driver, TimeSpan.FromSeconds(_waitTimeOut));
+    /// <summary>
+    ///     Get wait time with time out in config if driver can not exit it throw expceiton
+    /// </summary>
+    /// <returns></returns>
+    public WebDriverWait GetWaitTimeOutWithCurrentWebDriver()
+        => new WebDriverWait(_webDriver ?? throw new Exception("Web driver current can not be null")
+            , TimeSpan.FromSeconds(_waitTimeOut));
 }

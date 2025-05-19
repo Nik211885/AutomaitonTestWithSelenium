@@ -1,8 +1,11 @@
 ﻿{
+  "Assert": {
+    "Timeout": 10
+  },
   "Address": {
     "HostName": "ucvn.vn",
     "Port": "",
-    "Page": "tvyb//blib"
+    "Page": "tvyb/blib"
   },
   "Account": {
     "UserName": "admin",
@@ -10,8 +13,8 @@
   },
   "DriverOptions": {
     "DriverPath": "",
-    "Driver": "Chrome",
-    "DisableInterface": true,
+    "DriverType": "Chrome",
+    "DisableInterface": false,
     "Sandbox": true,
     "DisableDevShmUsage": false
   }

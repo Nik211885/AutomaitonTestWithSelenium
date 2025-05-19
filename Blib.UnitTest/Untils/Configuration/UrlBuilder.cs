@@ -55,20 +55,22 @@ public class UrlBuilder(AddressModel? addressModel)
         }
         var sb = new StringBuilder();
         var scheme = _securitySchema ? "https" : "http";
-        sb.Append($"{scheme}:\\");
-        sb.Append(_addressModel.HostName);
+        sb.Append(@$"{scheme}://");
+        sb.Append(@$"{_addressModel.HostName}");
         if (!string.IsNullOrWhiteSpace(_addressModel.Port))
         {
             sb.Append($":{_addressModel.Port}");
         }
+
+        sb.Append(@"/");
         if (!string.IsNullOrWhiteSpace(_addressModel.Page))
         {
-            sb.Append($"/{_addressModel.Page}");
+            sb.Append(@$"{_addressModel.Page}/");
         }
 
         if (!string.IsNullOrWhiteSpace(_navigationUri))
         {
-            sb.Append($"/{_navigationUri}");
+            sb.Append(@$"{_navigationUri}/");
         }
         return sb.ToString();
     }
