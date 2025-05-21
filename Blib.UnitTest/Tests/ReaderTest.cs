@@ -1,6 +1,7 @@
 ﻿using Blib.UnitTest.Pages;
 using Blib.UnitTest.Untils;
 using Blib.UnitTest.Untils.Configuration;
+using Blib.UnitTest.Untils.Configuration.Model;
 using OpenQA.Selenium;
 
 namespace Blib.UnitTest.Tests;
@@ -14,7 +15,7 @@ public class ReaderTest
         var environmentConfiguration = ConfigurationManagement.GetInstance();
         _webDriver = environmentConfiguration.GetCurrentWebDriver();
         _readerPage = new ReaderPage(_webDriver, 
-            environmentConfiguration.GetAccountModel, 
+            environmentConfiguration.GetAccountModelWithRolePermission(RolePermission.ManagementReader), 
             environmentConfiguration.GetWailTimeOut(_webDriver), 
             environmentConfiguration.GetUrlBuilderInstance());
     }
@@ -23,6 +24,6 @@ public class ReaderTest
     public void CreateNewReader_WithInformationReader_ThenNotificationSuccessfully()
     {
         _readerPage.CreateNewReader();
-        AsserEx.ToastSuccessWithMessage(_webDriver,"Thêm mới thành công!");
+        AsserEx.ToastSuccessWithMessage(_webDriver,"Xử lý thành công !");
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Blib.UnitTest.Pages;
 using Blib.UnitTest.Untils.Configuration;
+using Blib.UnitTest.Untils.Configuration.Model;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -14,7 +15,7 @@ public class LoginTest : IDisposable
         var environmentConfiguration = ConfigurationManagement.GetInstance();
         _webDriver = environmentConfiguration.GetCurrentWebDriver();
         _loginPage = new LoginPage(environmentConfiguration.GetUrlBuilderInstance(),
-            environmentConfiguration.GetAccountModel,
+            environmentConfiguration.GetAccountModelWithRolePermission(RolePermission.Management),
             _webDriver, environmentConfiguration.GetWailTimeOut(_webDriver));
     }
 

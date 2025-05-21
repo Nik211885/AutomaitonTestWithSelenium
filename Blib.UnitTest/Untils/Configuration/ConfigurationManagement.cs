@@ -16,7 +16,7 @@ public class ConfigurationManagement
     /// <summary>
     ///     Information about account need login and test function
     /// </summary>
-    private readonly AccountModel? _account;
+    private readonly List<AccountModel>? _account;
     /// <summary>
     ///     Information about driver option need create instance for web drivers
     /// </summary>
@@ -39,8 +39,8 @@ public class ConfigurationManagement
             .Build();
         var addressModel = configuration.GetSection("Address")
             .Get<AddressModel>();
-        _account = configuration.GetSection("Account")
-            .Get<AccountModel>();
+        _account = configuration.GetSection("Accounts")
+            .Get<List<AccountModel>>();
         _driverOptions = configuration.GetSection("DriverOptions")
             .Get<DriverOptionsModel>();
         _waitTimeOut = configuration.GetValue<int>("Assert:Timeout");
@@ -119,8 +119,19 @@ public class ConfigurationManagement
     ///     Get account model make test
     /// </summary>
     /// <exception cref="Exception"></exception>
-    public AccountModel GetAccountModel
+    public List<AccountModel> GetAccountModel
         => _account ?? throw new Exception("You not set account");
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="rolePermission"></param>
+    /// <returns></returns>
+    public AccountModel GetAccountModelWithRolePermission(RolePermission rolePermission)
+    {
+        var accountModel = _account?.FirstOrDefault(x=>x.Role == rolePermission);
+        return accountModel ??
+               throw new Exception($"Can not find user has role is {rolePermission}");
+    }
     /// <summary>
     ///     Get wait time with time out in config
     /// </summary>

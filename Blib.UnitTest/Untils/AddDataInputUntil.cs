@@ -50,6 +50,7 @@ public static class AddDataInputUntil
             wait.Until(d => (d.FindElement(By.Id("imageModal")).GetAttribute("class") ?? "").Contains("show"));
             driver.FindElement(By.Id("btn-crop")).Click();
             driver.FindElement(By.Id("btn-close")).Click();
+            Thread.Sleep(5_000);
             return;
         }
         elementById.SendKeys(dataInputModel.Value);

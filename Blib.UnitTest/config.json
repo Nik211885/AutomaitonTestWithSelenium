@@ -1,16 +1,24 @@
 ﻿{
   "Assert": {
-    "Timeout": 10
+    "Timeout": 5000
   },
   "Address": {
     "HostName": "ucvn.vn",
     "Port": "",
     "Page": "tvyb/blib"
   },
-  "Account": {
-    "UserName": "admin",
-    "Password": "admin"
-  },
+  "Accounts": [
+    {
+      "UserName": "hongnt",
+      "Password": "hongnt",
+      "Role": "ManagementReader"
+    },
+    {
+      "UserName": "huongpl",
+      "Password": "hongnt",
+      "Role": "Management"
+    } 
+  ],
   "DriverOptions": {
     "DriverPath": "",
     "DriverType": "Chrome",

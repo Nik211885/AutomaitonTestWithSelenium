@@ -13,14 +13,22 @@ public class ReaderPage(IWebDriver webDriver, AccountModel accountModel, WebDriv
     private readonly UrlBuilder _urlBuilder = urlBuilder;
     private readonly WebDriverWait _waitTimeOut = waitTimeOut;
     private readonly LoginPage _loginPage = new LoginPage(urlBuilder, accountModel, webDriver, waitTimeOut);
-
+    /// <summary>
+    ///     Write url in here
+    /// </summary>
+    private readonly string _createNewReaderUrl = "tao-moi-ban-doc";
+    private readonly By _btnAddReader = By.Id("btn-add-reader");
+    /// <summary>
+    /// 
+    /// </summary>
+    
     public void CreateNewReader()
     {
         _loginPage.Login();
-        var urlCreateNewReader = _urlBuilder.Navigation("tao-moi-ban-doc").Build();
+        var urlCreateNewReader = _urlBuilder.Navigation(_createNewReaderUrl).Build();
         _webDriver.Navigate().GoToUrl(urlCreateNewReader);
         _webDriver.AddDataListByKeyIdInput(CreateNewReaderDataModel.GetFormCreateNewReaderDataModel());
-        _webDriver.FindElement(By.Id("btn-add-reader")).Click();
-        _waitTimeOut.WaitToToastSuccess("Thêm mới thành công!");
+        _webDriver.FindElement(_btnAddReader).Click();
+        _waitTimeOut.WaitToastReceived();
     }
 }
